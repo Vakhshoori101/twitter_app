@@ -27,7 +27,7 @@ class HomeTableViewController: UITableViewController {
     
     @objc func loadTweets(){
         numberOfTweets = 20
-        
+                
         let myURL = "https://api.twitter.com/1.1/statuses/home_timeline.json"
         
         let myParams = ["count": numberOfTweets]
@@ -39,6 +39,8 @@ class HomeTableViewController: UITableViewController {
             for tweet in tweets {
                 self.tweetArray.append(tweet)
             }
+            
+            //print(self.tweetArray[0]["user"])
             
             self.tableView.reloadData()
             
@@ -90,9 +92,9 @@ class HomeTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tweetCell", for: indexPath) as! TweetCellTableViewCell
         
         let user = tweetArray[indexPath.row]["user"] as! NSDictionary
-        
-        
+                
         cell.userNameLabel.text = user["name"] as? String
+        cell.screenNameLabel.text = "@" + (user["screen_name"] as! String)
         cell.tweetsContent.text = tweetArray[indexPath.row]["text"] as? String
         
         let imageUrl = URL(string: (user["profile_image_url_https"] as? String)!)

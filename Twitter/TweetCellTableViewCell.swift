@@ -16,6 +16,7 @@ class TweetCellTableViewCell: UITableViewCell {
     
     @IBOutlet weak var tweetsContent: UILabel!
     
+    @IBOutlet weak var screenNameLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
