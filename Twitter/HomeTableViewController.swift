@@ -39,9 +39,7 @@ class HomeTableViewController: UITableViewController {
             for tweet in tweets {
                 self.tweetArray.append(tweet)
             }
-            
-            //print(self.tweetArray[0]["user"])
-            
+                        
             self.tableView.reloadData()
             
             self.myRefreshControl.endRefreshing()
@@ -97,6 +95,9 @@ class HomeTableViewController: UITableViewController {
         cell.screenNameLabel.text = "@" + (user["screen_name"] as! String)
         cell.tweetsContent.text = tweetArray[indexPath.row]["text"] as? String
         
+        let d = tweetArray[indexPath.row]["created_at"] as! String
+        cell.timeLabel.text = calclate_time_ago(date: d)
+        
         let imageUrl = URL(string: (user["profile_image_url_https"] as? String)!)
         let data = try? Data(contentsOf: imageUrl!)
         
@@ -105,6 +106,83 @@ class HomeTableViewController: UITableViewController {
         }
         
         return cell
+    }
+    
+    func calclate_time_ago(date: String) -> String{
+        
+        let dateFormatter = DateFormatter()
+
+        dateFormatter.dateFormat = "E MMM dd HH:mm:ss Z yyyy"
+
+        let dateFromString = dateFormatter.date(from: date)
+
+        var secondsSinceNow = (dateFromString!.timeIntervalSinceNow) * -1
+//        secondsSinceNow += 28800
+        var minutesSinceNow = secondsSinceNow / 60
+        var hoursSinceNow = minutesSinceNow / 60
+        var daysSinceNow = hoursSinceNow / 24
+        var weeksSinceNow = daysSinceNow / 7
+        var yearsSinceNow = weeksSinceNow / 52
+
+        secondsSinceNow = floor(secondsSinceNow)
+        minutesSinceNow = floor(minutesSinceNow)
+        hoursSinceNow = floor(hoursSinceNow)
+        daysSinceNow = floor(daysSinceNow)
+        weeksSinceNow = floor(weeksSinceNow)
+        yearsSinceNow = floor(yearsSinceNow)
+
+        var recentLabel = ""
+
+        if (yearsSinceNow >= 1) {
+            if (yearsSinceNow == 1){
+                recentLabel = String(format: "%.0f year ago", yearsSinceNow)
+            }
+            else{
+                recentLabel = String(format: "%.0f years ago", yearsSinceNow)
+            }
+        }
+        else if (weeksSinceNow >= 1){
+            if (weeksSinceNow == 1){
+                recentLabel = String(format: "%.0f week ago", weeksSinceNow)
+            }
+            else {
+               recentLabel = String(format: "%.0f weeks ago", weeksSinceNow)
+            }
+        }
+        else if (daysSinceNow >= 1){
+            if (daysSinceNow == 1){
+                recentLabel = String(format: "%.0f day ago", daysSinceNow)
+            }
+            else{
+                recentLabel = String(format: "%.0f days ago", daysSinceNow)
+            }
+        }
+        else if (hoursSinceNow >= 1){
+            if (hoursSinceNow == 1){
+                recentLabel = String(format: "%.0f hour ago", hoursSinceNow)
+            }
+            else{
+                recentLabel = String(format: "%.0f hours ago", hoursSinceNow)
+            }
+        }
+        else if (minutesSinceNow >= 1){
+            if (minutesSinceNow == 1){
+                recentLabel = String(format: "%.0f minute ago", minutesSinceNow)
+            }
+            else{
+                recentLabel = String(format: "%.0f minutes ago", minutesSinceNow)
+            }
+        }
+        else{
+            if (secondsSinceNow == 1){
+                recentLabel = String(format: "%.0f second ago", secondsSinceNow)
+            }
+            else{
+                recentLabel = String(format: "%.0f seconds ago", secondsSinceNow)
+            }
+        }
+
+        return recentLabel
     }
     
     // MARK: - Table view data source

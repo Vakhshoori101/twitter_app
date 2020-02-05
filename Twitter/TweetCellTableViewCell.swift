@@ -18,6 +18,8 @@ class TweetCellTableViewCell: UITableViewCell {
     
     @IBOutlet weak var screenNameLabel: UILabel!
     
+    @IBOutlet weak var timeLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
