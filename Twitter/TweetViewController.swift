@@ -12,6 +12,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
 
     @IBOutlet weak var tweetTextView: UITextView!
     @IBOutlet weak var charsleftLabel: UILabel!
+    @IBOutlet weak var profileImageView: UIImageView!
     
     var userArray = [NSDictionary]()
     
@@ -27,24 +28,24 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         self.tweetTextView.layer.cornerRadius = 5
         self.tweetTextView.layer.borderWidth = 1
         
-//        let URL = "https://api.twitter.com/1.1/statuses/user_timeline.json"
-//
-//        TwitterAPICaller.client?.getDictionariesRequest(url: URL, parameters: [:], success: { (person:[NSDictionary]) in
-////            for p in person{
-////                self.userArray.append(p)
-////            }
-//            let user = person[0]["user"] as! NSDictionary
-//            let imageUrl = URL(user["profile_image_url_https"] as? String)!)
-//            let data = try? Data(contentsOf: imageUrl!)
-////            let u = self.userArray[0]["user"] as! NSDictionary
-//////            let profile_url = u["profile_image_url_https"] as! String
-////            let imageUrl = URL(String: (u["profile_image_url_https"] as? String)!)
-////            let data = try? Data(contentsOf: imageUrl!)
-//
-//
-//        }, failure: { (Error) in
-//            print("Count not retrieve tweeets!")
-//        })
+        let url = "https://api.twitter.com/1.1/statuses/user_timeline.json"
+
+        TwitterAPICaller.client?.getDictionariesRequest(url: url, parameters: [:], success: { (person:[NSDictionary]) in
+
+            let user = person[0]["user"] as! NSDictionary
+            let imageUrl = URL(string: (user["profile_image_url_https"] as? String)!)
+            let data = try? Data(contentsOf: imageUrl!)
+            
+            if let imageData = data{
+                self.profileImageView.image = UIImage(data: imageData)
+            }
+
+        }, failure: { (Error) in
+            print("Count not retrieve tweeets!")
+        })
+        
+        profileImageView.layer.cornerRadius = 30
+        
 //
         
         

@@ -102,7 +102,7 @@ class HomeTableViewController: UITableViewController {
         
         let d = tweetArray[indexPath.row]["created_at"] as! String
         cell.timeLabel.text = calclate_time_ago(date: d)
-        
+                
         let imageUrl = URL(string: (user["profile_image_url_https"] as? String)!)
         let data = try? Data(contentsOf: imageUrl!)
         
