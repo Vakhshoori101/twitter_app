@@ -26,7 +26,6 @@ class TweetCellTableViewCell: UITableViewCell {
     
     var favorited:Bool = false
     var tweetId:Int = -1
-    // var retweeted:Bool = false
     
     @IBAction func favoriteTweet(_ sender: Any) {
         let tobeFavorited = !favorited
